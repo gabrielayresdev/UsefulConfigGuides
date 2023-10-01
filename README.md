@@ -11,6 +11,14 @@ Guias para configurar diversas tecnologias
 ### Jest + React Testing Library em projeto criado com Vite
 
 ```console
+    npm i jest -D
+
+    npx jest --init
+```
+
+Realizar as configurações iniciais: yes / yes / jsom / no / v8 / yes
+
+```console
 
     npm i ts-node -D
     npm i @types/jest -D
