@@ -27,7 +27,7 @@ Realizar as configurações iniciais: yes / yes / jsom / no / v8 / yes
     npm i @swc/core @swc/jest -D
 ```
 
-Mudar a propriedade transform no jest.config para 
+Mudar a propriedade transform no _jest.config_ para 
 
 ```js 
     transform: {
@@ -58,27 +58,40 @@ Mudar a propriedade transform no jest.config para
     },
 ```
 
-Caso esteja usando arquivos de estilo, mudar a propriedade moduleNameMapper para
+Caso esteja usando arquivos de estilo, intalar identity-obj-proxy 
+
+```console
+    npm i identity-obj-proxy -D
+```
+
+e mudar a propriedade moduleNameMapper no arquivo _jest.config_ para
 
 ```js
     moduleNameMapper: {
         "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$":
-        "<rootDir>/__mocks__/fileMock.js",
+        "<rootDir>/src/test/__mocks__/fileMock.ts",
         "\\.(css|less|scss|sass)$": "identity-obj-proxy",
     },
 ```
+
+Criar uma pasta _\_\_mocks___ dentro da pasta test, e criar uma arquivo _\_\_fileMock.ts___ com o código
+
+```js
+    module.exports = {};
+```
+
 
 ```console 
     npm i @testing-library/react @testing-library/jest-dom @testing-library/user-event -D
 ```
 
-Criar o arquivo setup.ts com o código 
+Criar o arquivo _setup.ts_ com o código 
 
 ```js
     import 'testing-library/jest-dom'
 ```
 
-Mudar a propriedade setupFilesAfterEnv do arquivo jest.config com o path do arquivo setup.ts 
+Mudar a propriedade setupFilesAfterEnv do arquivo _jest.config_ com o path do arquivo setup.ts 
 
 ```js 
     setupFilesAfterEnv: ["<rootDir>/src/tests/setup.ts"],
