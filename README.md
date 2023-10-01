@@ -75,7 +75,7 @@ Caso esteja usando arquivos de estilo, mudar a propriedade moduleNameMapper para
 Criar o arquivo setup.ts com o código 
 
 ```js
-    @import 'testing-library/jest-dom'
+    import 'testing-library/jest-dom'
 ```
 
 Mudar a propriedade setupFilesAfterEnv do arquivo jest.config com o path do arquivo setup.ts 
