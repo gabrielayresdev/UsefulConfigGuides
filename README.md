@@ -4,7 +4,7 @@ Guias para configurar diversas tecnologias
 
 ## Tecnologias 
 
-- [Jest + React Testing Library em projeto React + TS criado com Vite](#jest-+-react-testing-library-em-projeto-criado-com-vite)
+- [Jest + React Testing Library em projeto React + TS criado com Vite](#jest--react-testing-library-em-projeto-criado-com-vite)
 
 
 
