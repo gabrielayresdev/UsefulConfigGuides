@@ -5,6 +5,7 @@ Guias para configurar diversas tecnologias
 ## Tecnologias 
 
 - [Jest + React Testing Library em projeto React + TS criado com Vite](#jest--react-testing-library-em-projeto-criado-com-vite)
+- [Storybook em projeto Vite](#storybook-em-projeto-vite)
 
 
 
@@ -82,7 +83,7 @@ Criar uma pasta _\_\_mocks___ dentro da pasta test, e criar uma arquivo _\_\_fil
 
 
 ```console 
-    npm i @testing-library/react @testing-library/jest-dom @testing-library/user-event -D
+    npm i @testing-library/react @testing-library/jest-dom @testing-library/user-event jest-environment-jsdom -D
 ```
 
 Criar o arquivo _setup.ts_ com o código 
@@ -98,3 +99,54 @@ Mudar a propriedade setupFilesAfterEnv do arquivo _jest.config_ com o path do ar
 ```
 
 ================================= EOF =================================
+
+### Storybook em projeto Vite
+
+Inicie o storybook com
+```console
+     npx storybook init --builder @storybook/builder-vite --use-npm
+```
+
+E aceite a instalação da dependência __storybook__
+
+Caso queira mudar o tema do storybook, adicione o arquivo manager.js na pasta storybook e digite o seguinte código: 
+
+```js
+    import { addons } from "@storybook/addons";
+    import { themes } from "@storybook/theming";
+    
+    addons.setConfig({
+      themes: themes.dark,
+    });
+```
+O arquivo main.ts deve conter o seguinte código: 
+
+```js
+import type { StorybookConfig } from "@storybook/react-vite";
+
+const config: StorybookConfig = {
+  stories: ["../src/components/**/*.stories.tsx"],
+  staticDirs: ["../src/assets"],
+  addons: [
+    "@storybook/addon-links",
+    "@storybook/addon-essentials",
+    "@storybook/addon-onboarding",
+    "@storybook/addon-interactions",
+    "@storybook/addon-designs",
+    "@storybook/addon-a11y",
+  ],
+  framework: {
+    name: "@storybook/react-vite",
+    options: {},
+  },
+  docs: {
+    autodocs: true,
+  },
+};
+export default config;
+```
+
+O arquivo preview.ts deve importar os estilos globais no começo do códgio
+
+================================= EOF =================================
+
