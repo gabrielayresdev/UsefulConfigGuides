@@ -6,6 +6,7 @@ Guias para configurar diversas tecnologias
 
 - [Jest + React Testing Library em projeto React + TS criado com Vite](#jest--react-testing-library-em-projeto-criado-com-vite)
 - [Storybook em projeto Vite](#storybook-em-projeto-vite)
+- [Plop em projeto Vite](#plop-em-projeto-vite)
 
 
 
@@ -89,7 +90,7 @@ Criar uma pasta _\_\_mocks___ dentro da pasta test, e criar uma arquivo _\_\_fil
 Criar o arquivo _setup.ts_ com o código 
 
 ```js
-    import 'testing-library/jest-dom'
+    import '@testing-library/jest-dom'
 ```
 
 Mudar a propriedade setupFilesAfterEnv do arquivo _jest.config_ com o path do arquivo setup.ts 
@@ -150,3 +151,123 @@ O arquivo preview.ts deve importar os estilos globais no começo do códgio
 
 ================================= EOF =================================
 
+### Plop em projeto Vite
+
+```console
+npm install --save-dev plop
+```
+
+Crie um arquivo __plopfile.js__ na origem do projeto com o código: 
+(___O código a seguir cria arquivos do componente, estilo, testes e documentação___)
+```js 
+export default function (/** @type {import('plop').NodePlopAPI} */ plop) {
+  plop.setGenerator("basics", {
+    description: "this is a skeleton plopfile",
+    prompts: [{ type: "input", name: "name", message: "Name your resource" }], // array of inquirer prompts
+    actions: [
+      {
+        type: "add",
+        path: "src/components/{{titleCase name}}/{{titleCase name}}.tsx",
+        templateFile: "plop/templates/index.tsx.hbs",
+      },
+      {
+        type: "add",
+        path: "src/components/{{titleCase name}}/{{titleCase name}}.module.sass",
+        templateFile: "plop/templates/styles.module.sass.hbs",
+      },
+      {
+        type: "add",
+        path: "src/components/{{titleCase name}}/{{titleCase name}}.stories.tsx",
+        templateFile: "plop/templates/stories.tsx.hbs",
+      },
+      {
+        type: "add",
+        path: "src/components/{{titleCase name}}/{{titleCase name}}.test.tsx",
+        templateFile: "plop/templates/test.tsx.hbs",
+      },
+    ],
+  });
+
+  plop.setHelper("titleCase", (str) => {
+    return str.replace(/\w\S*/g, function (txt) {
+      return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+    });
+  });
+}
+```
+
+Instale o handlebars
+
+```console
+npm install handlebars
+```
+
+Crie os templates na pasta __/plop/templates__ 
+
+Modelos que eu uso: 
+
+index.tsx.hbs 
+````js
+import styles from './{{titleCase name}}.module.sass'
+
+export const {{titleCase name}} = () => {
+  return (
+    <div className={styles.wrapper}>
+    </div>
+  )
+}
+
+export default {{titleCase name}}
+```
+
+stories.tsx.hbs
+```js
+import type { Meta, StoryObj } from '@storybook/react'
+
+import { {{titleCase name}} } from './{{titleCase name}}.tsx'
+
+const meta: Meta<typeof {{titleCase name}}> = {
+  title: 'components/{{titleCase name}}',
+  component: {{titleCase name}},
+} as Meta
+
+export default meta
+
+const template = {
+  render: () => <{{titleCase name}} />,
+}
+
+export const Default: Storyobj = {
+  ...template,
+}
+```
+
+styles.sass.hbs
+```sass
+.wrapper 
+    display: flex
+    justify-content: center
+    align-items: center
+```
+
+test.tsx.hbs
+```js
+import { render, screen } from '@testing-library/react'
+import {{titleCase name}} from './{{titleCase name}}.tsx'
+
+const { getByTestId } = screen;
+
+
+
+describe('<{{titleCase name}} />', () => {
+  beforeEach(() => {
+    render(<{{titleCase name}} />)
+  })
+
+  test('Should pass always', () => {
+    expect(1).toBe(1)
+  })
+})
+```
+
+configure o script ___"generate": "plop",___ no package.json
