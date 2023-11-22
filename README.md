@@ -207,7 +207,7 @@ Crie os templates na pasta __/plop/templates__
 Modelos que eu uso: 
 
 index.tsx.hbs 
-````js
+```js
 import styles from './{{titleCase name}}.module.sass'
 
 export const {{titleCase name}} = () => {
